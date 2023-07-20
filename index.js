@@ -1,6 +1,5 @@
 import express from "express";
 import fileUpload from "express-fileupload";
-// import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import fs from "fs";
@@ -24,9 +23,15 @@ app.get("/", (req, res) => {
 
 app.post("/upload", (req, res) => {
     const file = req.files.file;
-
+    const ext = file.name.split(".").pop();
     if (req.files === null) {
         return res.status(400).json({ msg: "No files were uploaded" });
+    }
+
+    const validExtensions = ["png", "jpg", "jpeg", "gif"];
+
+    if (!validExtensions.includes(ext)) {
+        return res.status(400).json({ msg: "Invalid extension" });
     }
 
     if (file.size > 5000000) {
@@ -48,6 +53,10 @@ app.get("/deleteimg/:nombre", (req, res) => {
         }
         res.json({ msg: "Imagen eliminada" });
     });
+});
+
+app.get("/imagenes", (req, res) => {
+    res.sendFile(__dirname + "/public/imagenes.html");
 });
 
 app.listen(port, () => {

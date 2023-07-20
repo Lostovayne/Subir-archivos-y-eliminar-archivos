@@ -1,0 +1,1 @@
+Pasar el nombre + la extension del archivo a la ruta /deleteimg/:nombre  para eliminarlo
